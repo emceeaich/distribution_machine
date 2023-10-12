@@ -4,7 +4,7 @@ use rand::Rng;
 
 fn main() {
     let mut distribution = HashMap::new();
-    const BOUND: u32 = 1000;
+    const BOUND: u32 = 1000000;
     let mut i: u32 = 0;
     loop {
         let tries = guess_number(1, 100);
@@ -24,7 +24,7 @@ fn main() {
 
         let mut bar: String = "X".to_string();
         for i in 1..**val {
-            if i % 10 == 0 {
+            if i % 10000 == 0 {
                 bar += "X";
             }
         }
@@ -49,11 +49,11 @@ fn guess_number(low: u32, high: u32) -> u32 {
         match guess.cmp(&secret_number) {
             Ordering::Less => {
                 // println!("Guess {}: {} is too small.", guesses, guess);
-                _low = guess;
+                _low = guess + 1;
             },
             Ordering::Greater => {
                 // println!("Guess {}: {} is too big.", guesses, guess);
-                _high = guess;
+                _high = guess - 1;
             },
             Ordering::Equal => {
                 // println!("{} is correct! I took {} guesses.", guess, guesses);
@@ -62,8 +62,8 @@ fn guess_number(low: u32, high: u32) -> u32 {
         }
 
         if guesses > MAX_GUESSES {
-            println!("Something went terribly wrong here. Secret number is: {}, guesses are: {}, low: {}, high: {}",
-                secret_number, guesses, low, high);
+            println!("Something went terribly wrong here. Secret number is: {}, guess is: {}, low: {}, high: {}",
+                secret_number, guess, _low, _high);
             break;
         }
     }
@@ -72,7 +72,7 @@ fn guess_number(low: u32, high: u32) -> u32 {
 }
 
 fn make_guess(low: u32, high: u32) -> u32 {
-    let guess = (high - low)/2 + low;
+    let guess: f64 = ((high as f64 - low as f64)/2.0 + low as f64).ceil();
     // println!("low: {}, high: {}, guess: {}", low, high, guess);
-    return guess;
+    return guess as u32;
 }
