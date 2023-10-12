@@ -62,7 +62,8 @@ fn guess_number(low: u32, high: u32) -> u32 {
         }
 
         if guesses > MAX_GUESSES {
-            println!("Something went terribly wrong here.");
+            println!("Something went terribly wrong here. Secret number is: {}, guesses are: {}, low: {}, high: {}",
+                secret_number, guesses, low, high);
             break;
         }
     }
